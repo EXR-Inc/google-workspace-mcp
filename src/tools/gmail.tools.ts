@@ -58,7 +58,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.messages.list({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           maxResults: Math.min(args.maxResults || 10, 500),
           labelIds: args.labelIds,
           q: args.query,
@@ -128,7 +128,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.messages.get({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.messageId,
           format: args.format,
         });
@@ -280,7 +280,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const listResponse = await gmail.users.messages.list({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           q: args.query,
           maxResults: Math.min(args.maxResults || 20, 100),
         });
@@ -304,7 +304,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         for (let i = 0; i < messagesWithIds.length; i++) {
           const m = messagesWithIds[i];
           const msg = await gmail.users.messages.get({
-            userId: args.delegateFor || (await getAccountEmail(args.account)),
+            userId: args.delegateFor || 'me',
             id: m.id,
             format: 'metadata',
             metadataHeaders: ['From', 'Subject', 'Date'],
@@ -357,7 +357,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.labels.list({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
         });
         const labels = response.data.labels ?? [];
 
@@ -453,7 +453,7 @@ export function registerGmailTools(options: GmailToolOptions) {
             : undefined;
 
         const response = await gmail.users.labels.create({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           requestBody: {
             name: args.name,
             labelListVisibility: args.labelListVisibility,
@@ -516,7 +516,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.messages.modify({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.messageId,
           requestBody: {
             addLabelIds: [args.labelId],
@@ -573,7 +573,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.messages.modify({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.messageId,
           requestBody: {
             removeLabelIds: [args.labelId],
@@ -656,7 +656,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         // If replying to a message, get thread info and headers for proper threading
         if (args.replyToMessageId) {
           const originalMessage = await gmail.users.messages.get({
-            userId: args.delegateFor || (await getAccountEmail(args.account)),
+            userId: args.delegateFor || 'me',
             id: args.replyToMessageId,
             format: 'metadata',
             metadataHeaders: ['Message-ID', 'References'],
@@ -738,7 +738,7 @@ export function registerGmailTools(options: GmailToolOptions) {
           .replace(/=+$/, '');
 
         const response = await gmail.users.drafts.create({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           requestBody: {
             message: {
               raw: encodedEmail,
@@ -800,7 +800,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.drafts.list({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           maxResults: Math.min(args.maxResults || 20, 100),
         });
 
@@ -820,7 +820,7 @@ export function registerGmailTools(options: GmailToolOptions) {
 
           // Get draft details
           const draftDetails = await gmail.users.drafts.get({
-            userId: args.delegateFor || (await getAccountEmail(args.account)),
+            userId: args.delegateFor || 'me',
             id: draft.id,
             format: 'metadata',
           });
@@ -872,7 +872,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.drafts.get({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.draftId,
           format: 'full',
         });
@@ -987,7 +987,7 @@ export function registerGmailTools(options: GmailToolOptions) {
 
         // First, get the current draft content
         const currentDraft = await gmail.users.drafts.get({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.draftId,
           format: 'full',
         });
@@ -1089,7 +1089,7 @@ export function registerGmailTools(options: GmailToolOptions) {
 
         // Update the draft
         const response = await gmail.users.drafts.update({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.draftId,
           requestBody: {
             message: {
@@ -1158,7 +1158,7 @@ export function registerGmailTools(options: GmailToolOptions) {
 
         // Get current draft
         const currentDraft = await gmail.users.drafts.get({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.draftId,
           format: 'full',
         });
@@ -1189,7 +1189,7 @@ export function registerGmailTools(options: GmailToolOptions) {
           } else if (part.filename && part.body?.attachmentId) {
             // Fetch attachment data
             const attachmentResponse = await gmail.users.messages.attachments.get({
-              userId: args.delegateFor || (await getAccountEmail(args.account)),
+              userId: args.delegateFor || 'me',
               messageId: currentMessage?.id || '',
               id: part.body.attachmentId,
             });
@@ -1266,7 +1266,7 @@ export function registerGmailTools(options: GmailToolOptions) {
 
         // Update the draft
         const response = await gmail.users.drafts.update({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.draftId,
           requestBody: {
             message: {
@@ -1321,7 +1321,7 @@ export function registerGmailTools(options: GmailToolOptions) {
 
         // Get current draft
         const currentDraft = await gmail.users.drafts.get({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.draftId,
           format: 'full',
         });
@@ -1352,7 +1352,7 @@ export function registerGmailTools(options: GmailToolOptions) {
           } else if (part.filename && part.body?.attachmentId) {
             // Fetch attachment data
             const attachmentResponse = await gmail.users.messages.attachments.get({
-              userId: args.delegateFor || (await getAccountEmail(args.account)),
+              userId: args.delegateFor || 'me',
               messageId: currentMessage?.id || '',
               id: part.body.attachmentId,
             });
@@ -1446,7 +1446,7 @@ export function registerGmailTools(options: GmailToolOptions) {
 
         // Update the draft
         const response = await gmail.users.drafts.update({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.draftId,
           requestBody: {
             message: {
@@ -1501,7 +1501,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         await gmail.users.messages.trash({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.messageId,
         });
 
@@ -1538,7 +1538,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.drafts.send({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           requestBody: {
             id: args.draftId,
           },
@@ -1590,7 +1590,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         await gmail.users.drafts.delete({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.draftId,
         });
 
@@ -1629,7 +1629,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.messages.attachments.get({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           messageId: args.messageId,
           id: args.attachmentId,
         });
@@ -1696,7 +1696,7 @@ export function registerGmailTools(options: GmailToolOptions) {
 
         // First, get attachment metadata from the message to find the filename
         const messageResponse = await gmail.users.messages.get({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.messageId,
           format: 'full',
         });
@@ -1725,7 +1725,7 @@ export function registerGmailTools(options: GmailToolOptions) {
 
         // Get the attachment data
         const response = await gmail.users.messages.attachments.get({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           messageId: args.messageId,
           id: args.attachmentId,
         });
@@ -1843,7 +1843,7 @@ export function registerGmailTools(options: GmailToolOptions) {
 
         // First, get attachment metadata from the message to find the filename
         const messageResponse = await gmail.users.messages.get({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.messageId,
           format: 'full',
         });
@@ -1875,7 +1875,7 @@ export function registerGmailTools(options: GmailToolOptions) {
 
         // Get the attachment data
         const attachmentResponse = await gmail.users.messages.attachments.get({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           messageId: args.messageId,
           id: args.attachmentId,
         });
@@ -1967,7 +1967,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.messages.modify({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.messageId,
           requestBody: {
             removeLabelIds: ['UNREAD'],
@@ -2018,7 +2018,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.messages.modify({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.messageId,
           requestBody: {
             addLabelIds: ['UNREAD'],
@@ -2082,7 +2082,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.threads.list({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           maxResults: Math.min(args.maxResults || 10, 500),
           labelIds: args.labelIds,
           q: args.query,
@@ -2153,7 +2153,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.threads.get({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.threadId,
           format: args.format,
         });
@@ -2280,7 +2280,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         await gmail.users.messages.batchModify({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           requestBody: {
             ids: args.messageIds,
             addLabelIds: args.labelIds,
@@ -2338,7 +2338,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         await gmail.users.messages.batchModify({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           requestBody: {
             ids: args.messageIds,
             removeLabelIds: args.labelIds,
@@ -2383,7 +2383,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.settings.filters.list({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
         });
 
         const filters = response.data.filter ?? [];
@@ -2489,7 +2489,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         const response = await gmail.users.settings.filters.create({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           requestBody: {
             criteria: {
               from: args.from,
@@ -2555,7 +2555,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         const gmail = await getGmailClient(args.account);
 
         await gmail.users.settings.filters.delete({
-          userId: args.delegateFor || (await getAccountEmail(args.account)),
+          userId: args.delegateFor || 'me',
           id: args.filterId,
         });
 
