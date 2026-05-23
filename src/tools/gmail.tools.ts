@@ -618,7 +618,7 @@ export function registerGmailTools(options: GmailToolOptions) {
         .describe(
           "Email address of a user who has granted delegate access to this account. When set, Gmail API calls operate on the delegated mailbox instead of the account's own mailbox."
         ),
-      to: z.string().describe('Recipient email address(es)'),
+      to: z.string().optional().describe('Recipient email address(es) — omit to create a draft with no recipient'),
       subject: z.string().describe('Email subject'),
       body: z.string().describe('Email body content'),
       cc: z.string().optional().describe('CC recipients'),
@@ -688,7 +688,7 @@ export function registerGmailTools(options: GmailToolOptions) {
           // Build multipart MIME message with attachments
           const boundary = `boundary_${Date.now()}_${Math.random().toString(36).substring(2)}`;
 
-          emailContent += `To: ${args.to}\r\n`;
+          if (args.to) emailContent += `To: ${args.to}\r\n`;
           if (args.cc) emailContent += `Cc: ${args.cc}\r\n`;
           if (args.bcc) emailContent += `Bcc: ${args.bcc}\r\n`;
           emailContent += `Subject: ${encodeHeader(args.subject)}\r\n`;
@@ -721,7 +721,7 @@ export function registerGmailTools(options: GmailToolOptions) {
           emailContent += `--${boundary}--\r\n`;
         } else {
           // Simple message without attachments
-          emailContent += `To: ${args.to}\r\n`;
+          if (args.to) emailContent += `To: ${args.to}\r\n`;
           if (args.cc) emailContent += `Cc: ${args.cc}\r\n`;
           if (args.bcc) emailContent += `Bcc: ${args.bcc}\r\n`;
           emailContent += `Subject: ${encodeHeader(args.subject)}\r\n`;
