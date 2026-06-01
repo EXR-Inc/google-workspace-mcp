@@ -100,21 +100,23 @@ export function registerCalendarTools(options: CalendarToolOptions) {
         .default('startTime')
         .describe('Order by field'),
     }),
-    async execute(args, { log: _log }) {
+    async execute(args, { log }) {
       try {
         const calendar = await getCalendarClient(args.account);
 
         const now = new Date();
         const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-        const response = await calendar.events.list({
+        const apiParams = {
           calendarId: args.calendarId || 'primary',
           timeMin: args.timeMin || now.toISOString(),
           timeMax: args.timeMax || weekFromNow.toISOString(),
           maxResults: args.maxResults,
           singleEvents: args.singleEvents,
           orderBy: args.singleEvents ? args.orderBy : undefined,
-        });
+        };
+
+        const response = await calendar.events.list(apiParams);
 
         const accountEmail = await getAccountEmail(args.account);
         const events = response.data.items ?? [];

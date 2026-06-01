@@ -85,8 +85,10 @@ export function registerDriveTools(options: DriveToolOptions) {
           q: queryString,
           pageSize: args.maxResults,
           orderBy,
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
           fields:
-            'files(id,name,modifiedTime,createdTime,size,webViewLink,owners(displayName,emailAddress))',
+            'files(id,name,modifiedTime,createdTime,size,webViewLink,owners(displayName,emailAddress),driveId)',
         });
 
         const files = response.data.files ?? [];
@@ -191,7 +193,9 @@ export function registerDriveTools(options: DriveToolOptions) {
           q: queryString,
           pageSize: args.maxResults,
           orderBy,
-          fields: 'files(id,name,modifiedTime,createdTime,webViewLink,owners(displayName),parents)',
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+          fields: 'files(id,name,modifiedTime,createdTime,webViewLink,owners(displayName),parents,driveId)',
         });
 
         const files = response.data.files ?? [];
@@ -279,8 +283,10 @@ export function registerDriveTools(options: DriveToolOptions) {
           q: queryString,
           pageSize: args.maxResults,
           orderBy: 'modifiedTime desc',
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
           fields:
-            'files(id,name,modifiedTime,createdTime,webViewLink,owners(displayName),lastModifyingUser(displayName))',
+            'files(id,name,modifiedTime,createdTime,webViewLink,owners(displayName),lastModifyingUser(displayName),driveId)',
         });
 
         const files = response.data.files ?? [];
@@ -513,7 +519,9 @@ export function registerDriveTools(options: DriveToolOptions) {
           q: queryString,
           pageSize: args.maxResults,
           orderBy: 'folder,name',
-          fields: 'files(id,name,mimeType,size,modifiedTime,webViewLink,owners(displayName))',
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+          fields: 'files(id,name,mimeType,size,modifiedTime,webViewLink,owners(displayName),driveId)',
         });
 
         const items = response.data.files ?? [];
@@ -1667,8 +1675,10 @@ export function registerDriveTools(options: DriveToolOptions) {
           q: queryString,
           pageSize: args.maxResults,
           orderBy: 'modifiedTime desc',
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
           fields:
-            'files(id,name,mimeType,size,modifiedTime,webViewLink,owners(displayName),lastModifyingUser(displayName))',
+            'files(id,name,mimeType,size,modifiedTime,webViewLink,owners(displayName),lastModifyingUser(displayName),driveId)',
         });
 
         const files = response.data.files ?? [];
@@ -1851,8 +1861,10 @@ export function registerDriveTools(options: DriveToolOptions) {
           q: queryString,
           pageSize: args.maxResults,
           orderBy,
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
           fields:
-            'files(id,name,mimeType,size,modifiedTime,webViewLink,owners(displayName),parents)',
+            'files(id,name,mimeType,size,modifiedTime,webViewLink,owners(displayName),parents,driveId)',
         });
 
         const files = response.data.files ?? [];

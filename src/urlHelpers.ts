@@ -1,134 +1,130 @@
-// urlHelpers.ts - Helper functions for constructing Google Workspace URLs with authuser param
+// urlHelpers.ts - Helper functions for constructing Google Workspace URLs
 
 /**
- * Constructs a Google Docs URL with authuser parameter
+ * Constructs a Google Docs URL (no authuser)
  */
-export function getDocsUrl(documentId: string, accountEmail: string): string {
-  return `https://docs.google.com/document/d/${documentId}/edit?authuser=${encodeURIComponent(accountEmail)}`;
+export function getDocsUrl(documentId: string, _accountEmail: string): string {
+  return `https://docs.google.com/document/d/${documentId}/edit`;
 }
 
 /**
- * Constructs a Google Sheets URL with authuser parameter
+ * Constructs a Google Sheets URL (no authuser)
  */
-export function getSheetsUrl(spreadsheetId: string, accountEmail: string): string {
-  return `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit?authuser=${encodeURIComponent(accountEmail)}`;
+export function getSheetsUrl(spreadsheetId: string, _accountEmail: string): string {
+  return `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit`;
 }
 
 /**
- * Constructs a Google Slides URL with authuser parameter
+ * Constructs a Google Slides URL (no authuser)
  */
-export function getSlidesUrl(presentationId: string, accountEmail: string): string {
-  return `https://docs.google.com/presentation/d/${presentationId}/edit?authuser=${encodeURIComponent(accountEmail)}`;
+export function getSlidesUrl(presentationId: string, _accountEmail: string): string {
+  return `https://docs.google.com/presentation/d/${presentationId}/edit`;
 }
 
 /**
- * Constructs a Google Forms edit URL with authuser parameter
+ * Constructs a Google Forms edit URL (no authuser)
  */
-export function getFormsUrl(formId: string, accountEmail: string): string {
-  return `https://docs.google.com/forms/d/${formId}/edit?authuser=${encodeURIComponent(accountEmail)}`;
+export function getFormsUrl(formId: string, _accountEmail: string): string {
+  return `https://docs.google.com/forms/d/${formId}/edit`;
 }
 
 /**
- * Constructs a Google Forms response URL with authuser parameter
+ * Constructs a Google Forms response URL (no authuser)
  */
-export function getFormsResponseUrl(formId: string, accountEmail: string): string {
-  return `https://docs.google.com/forms/d/${formId}/edit?authuser=${encodeURIComponent(accountEmail)}#responses`;
+export function getFormsResponseUrl(formId: string, _accountEmail: string): string {
+  return `https://docs.google.com/forms/d/${formId}/edit#responses`;
 }
 
 /**
- * Constructs a Google Drive file URL with authuser parameter
+ * Constructs a Google Drive file URL using open?id= format (no authuser)
  */
-export function getDriveFileUrl(fileId: string, accountEmail: string): string {
-  return `https://drive.google.com/file/d/${fileId}/view?authuser=${encodeURIComponent(accountEmail)}`;
+export function getDriveFileUrl(fileId: string, _accountEmail: string): string {
+  return `https://drive.google.com/open?id=${fileId}`;
 }
 
 /**
- * Constructs a Google Drive folder URL with authuser parameter
+ * Constructs a Google Drive folder URL (no authuser)
  */
-export function getDriveFolderUrl(folderId: string, accountEmail: string): string {
-  return `https://drive.google.com/drive/folders/${folderId}?authuser=${encodeURIComponent(accountEmail)}`;
+export function getDriveFolderUrl(folderId: string, _accountEmail: string): string {
+  return `https://drive.google.com/drive/folders/${folderId}`;
 }
 
 /**
- * Constructs a Gmail message URL with authuser parameter
- * Note: This opens the message in the Gmail web interface
+ * Constructs a Gmail message URL (no authuser)
  */
-export function getGmailMessageUrl(messageId: string, accountEmail: string): string {
-  return `https://mail.google.com/mail/?authuser=${encodeURIComponent(accountEmail)}#all/${messageId}`;
+export function getGmailMessageUrl(messageId: string, _accountEmail: string): string {
+  return `https://mail.google.com/mail/#all/${messageId}`;
 }
 
 /**
- * Constructs a Gmail thread URL with authuser parameter
+ * Constructs a Gmail thread URL (no authuser)
  */
-export function getGmailThreadUrl(threadId: string, accountEmail: string): string {
-  return `https://mail.google.com/mail/?authuser=${encodeURIComponent(accountEmail)}#all/${threadId}`;
+export function getGmailThreadUrl(threadId: string, _accountEmail: string): string {
+  return `https://mail.google.com/mail/#all/${threadId}`;
 }
 
 /**
- * Constructs a Gmail drafts URL with authuser parameter
+ * Constructs a Gmail drafts URL (no authuser)
  */
-export function getGmailDraftsUrl(accountEmail: string): string {
-  return `https://mail.google.com/mail/?authuser=${encodeURIComponent(accountEmail)}#drafts`;
+export function getGmailDraftsUrl(_accountEmail: string): string {
+  return `https://mail.google.com/mail/#drafts`;
 }
 
 /**
- * Constructs a Gmail draft URL with authuser parameter
+ * Constructs a Gmail draft URL (no authuser)
  */
-export function getGmailDraftUrl(draftId: string, accountEmail: string): string {
-  return `https://mail.google.com/mail/?authuser=${encodeURIComponent(accountEmail)}#drafts?compose=${draftId}`;
+export function getGmailDraftUrl(draftId: string, _accountEmail: string): string {
+  return `https://mail.google.com/mail/#drafts?compose=${draftId}`;
 }
 
 /**
- * Constructs a Google Calendar event URL with authuser parameter
- * Uses the event's htmlLink as base if available, otherwise constructs one
+ * Constructs a Google Calendar event URL (no authuser)
  */
 export function getCalendarEventUrl(
   eventId: string,
-  accountEmail: string,
-  calendarId: string = 'primary'
+  _accountEmail: string,
+  _calendarId: string = 'primary'
 ): string {
-  // Calendar event URLs need special encoding
   const encodedEventId = encodeURIComponent(eventId);
-  const encodedCalendarId = encodeURIComponent(calendarId);
-  return `https://calendar.google.com/calendar/r/eventedit/${encodedEventId}?authuser=${encodeURIComponent(accountEmail)}&cid=${encodedCalendarId}`;
+  return `https://calendar.google.com/calendar/event?eid=${encodedEventId}`;
 }
 
 /**
- * Constructs a Google Calendar view URL with authuser parameter
+ * Constructs a Google Calendar view URL (no authuser)
  */
-export function getCalendarUrl(accountEmail: string): string {
-  return `https://calendar.google.com/calendar/r?authuser=${encodeURIComponent(accountEmail)}`;
+export function getCalendarUrl(_accountEmail: string): string {
+  return `https://calendar.google.com/calendar/r`;
 }
 
 /**
- * Adds authuser parameter to an existing Google URL
- * Useful when the API returns a webViewLink that needs the authuser param added
+ * Returns the URL as-is, stripping any existing authuser parameter.
  */
-export function addAuthUserToUrl(url: string, accountEmail: string): string {
+export function addAuthUserToUrl(url: string, _accountEmail: string): string {
   try {
     const urlObj = new URL(url);
-    urlObj.searchParams.set('authuser', accountEmail);
+    urlObj.searchParams.delete('authuser');
+    // Also strip ouid, rtpof, sd params added by Drive API
+    urlObj.searchParams.delete('ouid');
+    urlObj.searchParams.delete('rtpof');
+    urlObj.searchParams.delete('sd');
+    urlObj.searchParams.delete('usp');
     return urlObj.toString();
   } catch {
-    // If URL parsing fails, append manually
-    const separator = url.includes('?') ? '&' : '?';
-    return `${url}${separator}authuser=${encodeURIComponent(accountEmail)}`;
+    return url;
   }
 }
 
 /**
- * Constructs a Google Contacts URL with authuser parameter
+ * Constructs a Google Contacts URL (no authuser)
  */
-export function getContactsUrl(accountEmail: string): string {
-  return `https://contacts.google.com/?authuser=${encodeURIComponent(accountEmail)}`;
+export function getContactsUrl(_accountEmail: string): string {
+  return `https://contacts.google.com/`;
 }
 
 /**
- * Constructs a Google Contacts person URL with authuser parameter
- * @param resourceName - The contact resource name (e.g., "people/c1234567890")
+ * Constructs a Google Contacts person URL (no authuser)
  */
-export function getContactPersonUrl(resourceName: string, accountEmail: string): string {
-  // Extract the person ID from the resource name (e.g., "people/c1234567890" -> "c1234567890")
+export function getContactPersonUrl(resourceName: string, _accountEmail: string): string {
   const personId = resourceName.replace('people/', '');
-  return `https://contacts.google.com/person/${personId}?authuser=${encodeURIComponent(accountEmail)}`;
+  return `https://contacts.google.com/person/${personId}`;
 }
